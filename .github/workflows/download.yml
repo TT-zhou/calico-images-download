@@ -1,0 +1,23 @@
+name: Download Calico Images
+on: workflow_dispatch
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and save images
+        run: |
+          docker pull calico/cni:v3.26.1
+          docker pull calico/node:v3.26.1
+          docker pull calico/kube-controllers:v3.26.1
+          
+          docker save calico/cni:v3.26.1 | gzip > calico-cni.tar.gz
+          docker save calico/node:v3.26.1 | gzip > calico-node.tar.gz
+          docker save calico/kube-controllers:v3.26.1 | gzip > calico-controllers.tar.gz
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: calico-images
+          path: |
+            *.tar.gz
