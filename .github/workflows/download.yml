@@ -16,7 +16,7 @@ jobs:
           docker save calico/kube-controllers:v3.26.1 | gzip > calico-controllers.tar.gz
           
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: calico-images
           path: |
